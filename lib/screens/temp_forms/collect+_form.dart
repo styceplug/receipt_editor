@@ -3,13 +3,20 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:permission_handler/permission_handler.dart';
+import 'package:printing/printing.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
 // import 'package:flutter_html/flutter_html.dart';
 import 'package:receipt_editor/utils/colors.dart';
 import 'package:receipt_editor/widgets/my_text_field.dart';
 
 import '../../utils/dimensions.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../preview_html_screen.dart';
 
 class CollectPlusForm extends StatefulWidget {
   const CollectPlusForm({super.key});
@@ -27,10 +34,8 @@ TextEditingController panelIDController = TextEditingController();
 TextEditingController trackingIDController = TextEditingController();
 
 class _CollectPlusFormState extends State<CollectPlusForm> {
-
   Future<String> loadTemplate() async {
-
-   /* final file = File('lib/models/template_models/collectplus_model.html');
+    /* final file = File('lib/models/template_models/collectplus_model.html');
     return await file.readAsString();*/
 
     return await rootBundle.loadString('assets/html/collectplus_model.html');
@@ -138,11 +143,11 @@ class _CollectPlusFormState extends State<CollectPlusForm> {
               MyTextField(
                   labelText: 'Set Tracking ID',
                   hintText: 'Input Tracking ID',
-                  controller: panelIDController,
+                  controller: trackingIDController,
                   keyboardType: TextInputType.number),
               SizedBox(height: Dimensions.height40),
               InkWell(
-                onTap: (){
+                onTap: () {
                   HapticFeedback.lightImpact();
                   generateHtml();
                 },
@@ -155,7 +160,8 @@ class _CollectPlusFormState extends State<CollectPlusForm> {
                   child: Text(
                     'Preview Template',
                     style: TextStyle(
-                        fontSize: Dimensions.font16, fontWeight: FontWeight.w500),
+                        fontSize: Dimensions.font16,
+                        fontWeight: FontWeight.w500),
                   ),
                 ),
               )
@@ -167,43 +173,44 @@ class _CollectPlusFormState extends State<CollectPlusForm> {
   }
 }
 
-class PreviewHtmlScreen extends StatefulWidget {
-  final String filePath;
+/*Future<void> requestStoragePermission() async {
 
-  const PreviewHtmlScreen({required this.filePath, Key? key}) : super(key: key);
+    var status = await Permission.storage.status;
+    if(status.isPermanentlyDenied || status.isDenied){
+      Map<Permission, PermissionStatus> statuses = await [Permission.storage].request();
+      print('Storage Permission Granted');
+    }
 
-  @override
-  _PreviewHtmlScreenState createState() => _PreviewHtmlScreenState();
-}
+    if(await Permission.storage.request().isGranted){
+      print('Permission Granted');
+    } else if (await Permission.storage.isPermanentlyDenied){
+      await openAppSettings();
+    } else{
+      print('Permission Denied');
+    }
+  }*/
 
-class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
-  late final WebViewController _controller;
+/*Future<void> checkAndRequestStoragePermission() async {
+    try {
+      // Check the current permission status
+      var status = await Permission.storage.status;
 
-  @override
-  void initState() {
-    super.initState();
-    _initializeWebView();
-  }
+      if (status.isDenied || status.isPermanentlyDenied || status.isRestricted) {
+        // Request permission if not granted
+        final result = await Permission.storage.request();
 
-  void _initializeWebView() {
-    final String htmlContent = File(widget.filePath).readAsStringSync();
-
-    _controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(
-        Uri.dataFromString(
-          htmlContent,
-          mimeType: 'text/html',
-          encoding: Encoding.getByName('utf-8'),
-        ),
-      );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Preview HTML")),
-      body: WebViewWidget(controller: _controller),
-    );
-  }
-}
+        if (result.isGranted) {
+          debugPrint('Storage Permission Granted');
+        } else if (result.isDenied) {
+          debugPrint('Storage Permission Denied');
+        } else if (result.isPermanentlyDenied) {
+          debugPrint('Storage Permission Permanently Denied. Please enable it from settings.');
+          openAppSettings(); // Opens app settings for user to enable permission
+        }
+      } else if (status.isGranted) {
+        debugPrint('Storage Permission Already Granted');
+      }
+    } catch (e) {
+      debugPrint('Error requesting storage permission: $e');
+    }
+  }*/
