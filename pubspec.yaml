@@ -41,11 +41,13 @@ dependencies:
   build_runner: ^2.4.0
   build_web_compilers: ^4.0.4
   path_provider: ^2.1.5
-  webview_flutter: ^4.10.0
+  webview_flutter: ^4.8.0
   htmltopdfwidgets: ^1.0.5
   printing: ^5.13.4
   pdf: ^3.11.1
   permission_handler: ^11.3.1
+  asset_webview: ^1.0.0
+  share_plus: ^10.1.2
 #  flutter_html: ^2.2.1
 
 dev_dependencies:

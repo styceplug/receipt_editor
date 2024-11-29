@@ -25,15 +25,20 @@ class CollectPlusForm extends StatefulWidget {
   State<CollectPlusForm> createState() => _CollectPlusFormState();
 }
 
-TextEditingController locationController = TextEditingController();
-TextEditingController timeController = TextEditingController();
-TextEditingController dateController = TextEditingController();
-TextEditingController serialController = TextEditingController();
-TextEditingController txnController = TextEditingController();
-TextEditingController panelIDController = TextEditingController();
-TextEditingController trackingIDController = TextEditingController();
 
 class _CollectPlusFormState extends State<CollectPlusForm> {
+
+  // always put your code in this place
+
+  TextEditingController locationController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController serialController = TextEditingController();
+  TextEditingController txnController = TextEditingController();
+  TextEditingController panelIDController = TextEditingController();
+  TextEditingController trackingIDController = TextEditingController();
+
+
   Future<String> loadTemplate() async {
     /* final file = File('lib/models/template_models/collectplus_model.html');
     return await file.readAsString();*/
@@ -52,8 +57,20 @@ class _CollectPlusFormState extends State<CollectPlusForm> {
         .replaceAll('{{parcel_id}}', panelIDController.text)
         .replaceAll('{{tracking_id}}', trackingIDController.text);
 
+    // Directory appDocDir = await getApplicationDocumentsDirectory();
+    // String filePath = '${appDocDir.path}/generated_receipt.html';
+    // File file = File(filePath);
+    // await file.writeAsString(generatedHtml);
+
     Directory appDocDir = await getApplicationDocumentsDirectory();
-    String filePath = '${appDocDir.path}/generated_receipt.html';
+
+    String htmlDirPath = '${appDocDir.path}/assets/html';
+    Directory htmlDir = Directory(htmlDirPath);
+    if (!htmlDir.existsSync()) {
+      await htmlDir.create(recursive: true);
+    }
+
+    String filePath = '$htmlDirPath/generated_receipt.html';
     File file = File(filePath);
     await file.writeAsString(generatedHtml);
 
@@ -76,7 +93,8 @@ class _CollectPlusFormState extends State<CollectPlusForm> {
         titleTextStyle: TextStyle(
             color: Colors.white,
             fontSize: Dimensions.font22,
-            fontWeight: FontWeight.w400),
+            fontWeight: FontWeight.w400,
+        ),
       ),
       backgroundColor: AppColors.color1,
       body: Container(

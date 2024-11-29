@@ -1,11 +1,15 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+// import 'package:asset_webview/asset_webview.dart';
+
 
 import '../utils/colors.dart';
 import '../utils/dimensions.dart';
@@ -28,8 +32,14 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
     _initializeWebView();
   }
 
-  void _initializeWebView() {
+  void _initializeWebView() async {
     final String htmlContent = File(widget.filePath).readAsStringSync();
+
+
+
+    final String baseUrl = Platform.isAndroid
+        ? 'file:///android_asset/flutter_assets/assets/html/'
+        : 'flutter_assets/assets/html/';
 
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -38,26 +48,52 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
           htmlContent,
           mimeType: 'text/html',
           encoding: Encoding.getByName('utf-8'),
+          parameters: {'baseUrl': baseUrl},
         ),
       );
+
+    var cur = await _controller.currentUrl();
+    print(cur);
+    print(_controller.toString());
+    log(htmlContent);
+  }
+
+  Future<Directory> getDownloadsDirectory() async {
+    if (Platform.isAndroid) {
+
+      final directory = await getExternalStorageDirectory();
+      if (directory != null) {
+        final downloadsDir = Directory('${directory.path}/Download');
+        if (await downloadsDir.exists()) {
+          return downloadsDir;
+        } else {
+          return downloadsDir.create(recursive: true);
+        }
+      } else {
+        throw Exception("Unable to access external storage on this device.");
+      }
+    } else if (Platform.isIOS) {
+      return getApplicationDocumentsDirectory();
+    } else {
+      throw UnsupportedError('Unsupported platform');
+    }
   }
 
   Future<void> downloadAsPdf(BuildContext context, String filePath) async {
     try {
-      // Request storage permission
+
       final status = await Permission.storage.request();
       if (!status.isGranted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-              content: Text('Storage permission is required to save the PDF.')),
+            content: Text('Storage permission is required to save the PDF.'),
+          ),
         );
         return;
       }
 
-      // Read HTML content from file
       final String htmlContent = await File(filePath).readAsString();
 
-      // Create PDF document
       final pdf = pw.Document();
       pdf.addPage(
         pw.Page(
@@ -65,29 +101,37 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
         ),
       );
 
-      // Determine the download directory
-      Directory downloadsDir;
-      if (Platform.isAndroid) {
-        downloadsDir = Directory('/storage/emulated/0/Download');
-      } else if (Platform.isIOS) {
-        downloadsDir = await getApplicationDocumentsDirectory();
-      } else {
-        throw UnsupportedError('Unsupported platform');
-      }
+      // Directory downloadsDir;
+      // if (Platform.isAndroid) {
+      //   downloadsDir = Directory('/storage/emulated/0/Download');
+      // } else if (Platform.isIOS) {
+      //   downloadsDir = await getApplicationDocumentsDirectory();
+      // } else {
+      //   throw UnsupportedError('Unsupported platform');
+      // }
+      //
+      // final pdfPath = '${downloadsDir.path}/template_receipt.pdf';
+      // final pdfFile = File(pdfPath);
+      //
+      // await pdfFile.writeAsBytes(await pdf.save());
 
-      // Save PDF to the determined directory
+      Directory downloadsDir = await getDownloadsDirectory();
       final pdfPath = '${downloadsDir.path}/template_receipt.pdf';
       final pdfFile = File(pdfPath);
       await pdfFile.writeAsBytes(await pdf.save());
 
-      // Notify user of successful save
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('PDF saved successfully at: $pdfPath'),
         ),
       );
-    } catch (e) {
-      // Handle errors
+
+      await Share.shareXFiles(
+        [XFile(pdfFile.path)],
+        text: 'Here is the receipt PDF.',
+      );
+    } catch (e, stacktrace) {
+      print('error saving pdf $e stacktrace $stacktrace');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error saving PDF: $e')),
       );
@@ -96,6 +140,7 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.filePath);
     return Scaffold(
       appBar: AppBar(title: const Text("Preview HTML")),
       body: Container(
