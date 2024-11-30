@@ -3,12 +3,13 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pdf/pdf.dart';
+
 import 'package:pdf/widgets.dart' as pw;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:receipt_editor/helpers/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-// import 'package:asset_webview/asset_webview.dart';
+
 
 
 import '../utils/colors.dart';
@@ -82,7 +83,17 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
   Future<void> downloadAsPdf(BuildContext context, String filePath) async {
     try {
 
-      final status = await Permission.storage.request();
+      bool storageGranted =
+      await requestPermission(Permission.manageExternalStorage);
+      bool bluetoothGranted = await requestPermission(Permission.bluetoothConnect);
+
+      if (storageGranted && bluetoothGranted) {
+        print("All permissions granted!");
+      } else {
+        print("Some permissions were denied.");
+      }
+
+     /* final status = await Permission.storage.request();
       if (!status.isGranted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -90,7 +101,7 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
           ),
         );
         return;
-      }
+      }*/
 
       final String htmlContent = await File(filePath).readAsString();
 
