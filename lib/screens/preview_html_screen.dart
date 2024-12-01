@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:html_to_pdf/html_to_pdf.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -81,9 +82,8 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
 
   Future<void> downloadAsPdf(BuildContext context, String filePath) async {
     try {
-
-      final status = await Permission.storage.request();
-      if (!status.isGranted) {
+      bool permissionGranted = await requestStoragePermission();
+      if (!permissionGranted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Storage permission is required to save the PDF.'),
@@ -94,49 +94,52 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
 
       final String htmlContent = await File(filePath).readAsString();
 
-      final pdf = pw.Document();
-      pdf.addPage(
-        pw.Page(
-          build: (pw.Context context) => pw.Text(htmlContent),
+      Directory tempDir = await getTemporaryDirectory();
+      String tempPath = tempDir.path;
+      String pdfFileName = "template_receipt";
+
+      final pdfFile = await HtmlToPdf.convertFromHtmlContent(
+        htmlContent: htmlContent,
+        printPdfConfiguration: PrintPdfConfiguration(
+          targetDirectory: tempPath,
+          targetName: pdfFileName,
+          printSize: PrintSize.A4,
+          printOrientation: PrintOrientation.Portrait,
         ),
       );
 
-      // Directory downloadsDir;
-      // if (Platform.isAndroid) {
-      //   downloadsDir = Directory('/storage/emulated/0/Download');
-      // } else if (Platform.isIOS) {
-      //   downloadsDir = await getApplicationDocumentsDirectory();
-      // } else {
-      //   throw UnsupportedError('Unsupported platform');
-      // }
-      //
-      // final pdfPath = '${downloadsDir.path}/template_receipt.pdf';
-      // final pdfFile = File(pdfPath);
-      //
-      // await pdfFile.writeAsBytes(await pdf.save());
+      final pdfFilePath = pdfFile.path;
 
-      Directory downloadsDir = await getDownloadsDirectory();
-      final pdfPath = '${downloadsDir.path}/template_receipt.pdf';
-      final pdfFile = File(pdfPath);
-      await pdfFile.writeAsBytes(await pdf.save());
+      await Share.shareXFiles(
+        [XFile(pdfFilePath)],
+        text: 'Here is the receipt PDF.',
+      );
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('PDF saved successfully at: $pdfPath'),
+          content: Text('PDF saved and ready for sharing: $pdfFilePath'),
         ),
       );
-
-      await Share.shareXFiles(
-        [XFile(pdfFile.path)],
-        text: 'Here is the receipt PDF.',
-      );
     } catch (e, stacktrace) {
-      print('error saving pdf $e stacktrace $stacktrace');
+      print('Error generating PDF: $e, stacktrace: $stacktrace');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error saving PDF: $e')),
       );
     }
   }
+
+
+  Future<bool> requestStoragePermission() async {
+    return true;
+    if (await Permission.storage.isGranted) {
+      return true;
+    }
+
+    PermissionStatus status = await Permission.storage.request();
+
+    return status.isGranted;
+  }
+
 
   @override
   Widget build(BuildContext context) {

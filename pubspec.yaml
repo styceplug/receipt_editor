@@ -48,6 +48,7 @@ dependencies:
   permission_handler: ^11.3.1
   asset_webview: ^1.0.0
   share_plus: ^10.1.2
+  html_to_pdf: ^0.8.1
 #  flutter_html: ^2.2.1
 
 dev_dependencies:
