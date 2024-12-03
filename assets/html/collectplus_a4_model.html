@@ -13,7 +13,7 @@
 
         @font-face {
             font-family: 'bitMatrix-A2';
-            src: url('./MAIN FOMT.TTF') format('truetype'); /* Ensure correct path */
+            src: url('https://thecribbers.ng/assets/styce/mainFont.ttf') format('truetype');
         }
 
         body {
@@ -21,8 +21,8 @@
             color: #000;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9; /* Light background for better contrast */
-            font-family: 'bitMatrix-A2'; /* Apply the custom font */
+            background-color: #f9f9f9;
+            font-family: 'bitMatrix-A2';
         }
 
         .header {
@@ -36,8 +36,8 @@
             width: 250px;
             margin: 30px auto;
             padding: 50px 30px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            background-color: #FDF6E4;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .logo img {
@@ -56,14 +56,21 @@
             font-family: 'Roboto', sans-serif;
         }
 
-        .store-info, .date-time {
+        .store-info {
             margin-bottom: 20px;
         }
 
-        .store-info p, .date-time p {
+        .store-info p {
             font-size: 15px;
             font-weight: 500;
             text-transform: uppercase;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 15px;
+            margin-bottom: 15px;
         }
 
         .thank-you {
@@ -127,21 +134,26 @@
 <body>
 <div class="receipt">
     <div class="logo">
-        <img src="collect+logo.png" alt="Collect+ Logo">
+        <img src="https://tubenexus.com.ng/receipt_editor/collectplus.png" alt="Collect+ Logo">
     </div>
 
     <div class="header">
         <p class="tagline">parcels made easy</p>
-        <p class="id-number">{{receipt_number}}</p>
+        <p class="id-number">23048</p>
     </div>
 
     <div class="store-info">
         <p>{{store_location}}</p>
     </div>
 
-    <div class="date-time">
-        <p>{{time}}</p>
-        <p>{{date}}</p>
+    <!-- Row for Time and Date with controlled spacing -->
+    <div class="row">
+        <p>{{time}}&nbsp;&nbsp;{{date}}</p>
+    </div>
+
+    <!-- Row for Serial Number and TXN -->
+    <div class="row">
+        <p>SN {{serial_number}} TXN {{txn}}</p>
     </div>
 
     <div class="thank-you">
@@ -171,7 +183,7 @@
     </div>
 
     <div class="trustpilot">
-        <img src="trustpilotlogo.png" alt="Trustpilot Logo">
+        <img src="https://tubenexus.com.ng/receipt_editor/trustpilotlogo.png" alt="Trustpilot Logo">
     </div>
 </div>
 </body>

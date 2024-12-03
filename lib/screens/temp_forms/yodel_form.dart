@@ -1,52 +1,49 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-// import 'package:flutter_html/flutter_html.dart';
 import 'package:receipt_editor/utils/colors.dart';
 import 'package:receipt_editor/widgets/my_text_field.dart';
-
 import '../../utils/dimensions.dart';
 import 'package:path_provider/path_provider.dart';
-
 import '../preview_html_screen.dart';
 
-class CollectPlusForm extends StatefulWidget {
-  const CollectPlusForm({super.key});
+class YodelForm extends StatefulWidget {
+  const YodelForm({super.key});
 
   @override
-  State<CollectPlusForm> createState() => _CollectPlusFormState();
+  State<YodelForm> createState() => _YodelFormState();
 }
 
-class _CollectPlusFormState extends State<CollectPlusForm> {
+class _YodelFormState extends State<YodelForm> {
   // always put your code in this place
 
-  TextEditingController locationController = TextEditingController();
+  TextEditingController address1Controller = TextEditingController();
+  TextEditingController address2Controller = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController serialController = TextEditingController();
   TextEditingController txnController = TextEditingController();
-  TextEditingController panelIDController = TextEditingController();
+  TextEditingController parcelIDController = TextEditingController();
   TextEditingController trackingIDController = TextEditingController();
 
   Future<String> loadTemplate() async {
     /* final file = File('lib/models/template_models/collectplus_model.html');
     return await file.readAsString();*/
 
-    return await rootBundle.loadString('assets/html/collectplus_model.html');
+    return await rootBundle.loadString('assets/html/yodel_model.html');
   }
 
   Future<void> generateHtml() async {
     String template = await loadTemplate();
     String generatedHtml = template
-        .replaceAll('{{store_location}}', locationController.text)
+        .replaceAll('{{address1}}', address1Controller.text)
+        .replaceAll('{{address2}}', address2Controller.text)
         .replaceAll('{{time}}', timeController.text)
         .replaceAll('{{date}}', dateController.text)
         .replaceAll('{{serial_number}}', serialController.text)
         .replaceAll('{{txn}}', txnController.text)
-        .replaceAll('{{parcel_id}}', panelIDController.text)
+        .replaceAll('{{parcel_id}}', parcelIDController.text)
         .replaceAll('{{tracking_id}}', trackingIDController.text);
 
     // Directory appDocDir = await getApplicationDocumentsDirectory();
@@ -81,7 +78,7 @@ class _CollectPlusFormState extends State<CollectPlusForm> {
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
         elevation: 1,
-        title: const Text('COLLECT+ TEMPLATE'),
+        title: const Text('YODEL TEMPLATE'),
         titleTextStyle: TextStyle(
           color: Colors.white,
           fontSize: Dimensions.font22,
@@ -115,9 +112,15 @@ class _CollectPlusFormState extends State<CollectPlusForm> {
               ),
               SizedBox(height: Dimensions.height30),
               MyTextField(
-                  labelText: 'Store Location',
+                  labelText: 'Address Line 1',
                   hintText: 'Input Store Location',
-                  controller: locationController,
+                  controller: address1Controller,
+                  keyboardType: TextInputType.streetAddress),
+              SizedBox(height: Dimensions.height10),
+              MyTextField(
+                  labelText: 'Address Line 2',
+                  hintText: 'Input Store Location',
+                  controller: address2Controller,
                   keyboardType: TextInputType.streetAddress),
               SizedBox(height: Dimensions.height10),
               MyTextField(
@@ -133,7 +136,7 @@ class _CollectPlusFormState extends State<CollectPlusForm> {
                   keyboardType: TextInputType.datetime),
               SizedBox(height: Dimensions.height10),
               MyTextField(
-                inputFormatter: [LengthLimitingTextInputFormatter(9)],
+                  inputFormatter: [LengthLimitingTextInputFormatter(9)],
                   labelText: 'Input Serial Number',
                   hintText: 'Type Serial Number',
                   controller: serialController,
@@ -149,7 +152,7 @@ class _CollectPlusFormState extends State<CollectPlusForm> {
               MyTextField(
                   labelText: 'Set Parcel ID',
                   hintText: 'Input Parcel ID',
-                  controller: panelIDController,
+                  controller: parcelIDController,
                   keyboardType: TextInputType.number),
               SizedBox(height: Dimensions.height10),
               MyTextField(
@@ -184,45 +187,3 @@ class _CollectPlusFormState extends State<CollectPlusForm> {
     );
   }
 }
-
-/*Future<void> requestStoragePermission() async {
-
-    var status = await Permission.storage.status;
-    if(status.isPermanentlyDenied || status.isDenied){
-      Map<Permission, PermissionStatus> statuses = await [Permission.storage].request();
-      print('Storage Permission Granted');
-    }
-
-    if(await Permission.storage.request().isGranted){
-      print('Permission Granted');
-    } else if (await Permission.storage.isPermanentlyDenied){
-      await openAppSettings();
-    } else{
-      print('Permission Denied');
-    }
-  }*/
-
-/*Future<void> checkAndRequestStoragePermission() async {
-    try {
-      // Check the current permission status
-      var status = await Permission.storage.status;
-
-      if (status.isDenied || status.isPermanentlyDenied || status.isRestricted) {
-        // Request permission if not granted
-        final result = await Permission.storage.request();
-
-        if (result.isGranted) {
-          debugPrint('Storage Permission Granted');
-        } else if (result.isDenied) {
-          debugPrint('Storage Permission Denied');
-        } else if (result.isPermanentlyDenied) {
-          debugPrint('Storage Permission Permanently Denied. Please enable it from settings.');
-          openAppSettings(); // Opens app settings for user to enable permission
-        }
-      } else if (status.isGranted) {
-        debugPrint('Storage Permission Already Granted');
-      }
-    } catch (e) {
-      debugPrint('Error requesting storage permission: $e');
-    }
-  }*/

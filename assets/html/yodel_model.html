@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yodel Receipt</title>
     <style>
-        *{
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -13,50 +13,59 @@
 
         @font-face {
             font-family: 'bitMatrix-A2';
-            src: url('./MAIN FOMT.TTF');
+            src: url('https://thecribbers.ng/assets/styce/mainFont.ttf') format('truetype');
         }
 
-
+        .logo img {
+            width: 180px;
+            display: block; /* Removes inline spacing */
+            margin: 0 auto 10px auto; /* Centers the logo and adds space below */
+        }
     </style>
 </head>
-<body style="font-family: 'bitMatrix-A2'; background-color: #FDF6E4; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; height: 100vh;">
+<body style="font-family: 'bitMatrix-A2'; background-color: #FDF6E4; font-weight: 100; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; height: 100vh;">
 
-<div style="background-color: #FDF6E4; color: #000; width: 200px; padding: 20px;">
-    <img style="width: 120px;" src="yodel-logo.png" alt="">
-    <p style="text-align: right; font-size: 14px; ">31113096</p>
+<div style="background-color: #FDF6E4; color: #000; width: 300px; padding: 20px;">
 
-    <p style="font-size: 12px; margin-bottom: 5px;">
-        UNIQUE BEERS WINES & SPI<br>
-        SE 15 IJS<br>
-        17:53 26/01/24<br>
-        SN 031265297 TXN 5204<br>
+    <div class="logo">
+        <img src="https://tubenexus.com.ng/receipt_editor/yodellogobg.png" alt="Yodel Logo">
+    </div>
+
+    <p style="text-align: right; font-size: 18px;">31113096</p>
+
+    <p style="font-size: 17px; margin-bottom: 10px; opacity: 0.95; ">
+        {{address1}}<br>
+    <p style="margin-bottom: 10px;">{{address2}}</p>
+    {{time}} {{date}}<br>
+    <p style="margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; ">SN
+        {{serial_no}} <span>TXN  {{txn}}</span></p>
     </p>
 
-    <p style="font-size: 12px; margin-bottom: 5px;">
+    <p style="font-size: 15px; margin-bottom: 10px; opacity: 0.95;">
         Thank you for sending your parcel(s) with<br>
-        Collect+ at 17:53 on 26/01/2024
+        Collect+ at {{time}} on {{date}}
     </p>
 
-    <p style="font-size: 12px; font-weight: 520; margin-bottom:  5px;">
+    <p style="font-size: 16px; margin-bottom: 10px;">
         PLEASE KEEP RECEIPT<br>
         FOR PROOF OF TRANSACTION
     </p>
 
     <p style="font-size: 13px; margin: 0;">
-        CUSTOMER PARCEL RECEIPT<br>
-        Parcel: 8KK440630011A905<br>
-        <span style="font-size: 16px;">Tracking <span>GAE4376</span></span><br>
-        <a href="https://www.yodel.co.uk" style="text-decoration: none; color: #000;">www.yodel.co.uk</a>
+        <span style=" font-size: 19px; margin-bottom: 10px;">CUSTOMER PARCEL RECEIPT</span><br>
+    <p style="font-size: 14px;">Parcel= {{parcel_id}}</p>
+    <span style="font-size: 23px;">Tracking <span>{{tracking_id}}</span></span><br>
+    <a href="https://www.yodel.co.uk" style="text-decoration: none; color: #000; font-size: 17px ; opacity: 0.95;">www.yodel.co.uk</a>
     </p>
 
-    <p style="font-size: 12px; margin: 0;">
+    <p style="font-size: 15px; margin: 0; opacity: 0.95;">
         CUSTOMER COPY<br>
-        Share your Collect+ instore experience on<br>
-        Trustpilot
+        Share your Collect+ <p style="margin-left: 10px;">instore experience on</p>
+    <p style="margin-left: 10px;">Trustpilot</p>
     </p>
 
-    <div style=" margin-top: 12px;">
-        <img src="trust-pilot-logo.png" alt="Trustpilot Logo" style="width: 130px;">
+    <div class="logo">
+        <img src="https://tubenexus.com.ng/receipt_editor/trustpilotlogo.png" alt="Trustpilot Logo">
     </div>
 </div>
 
