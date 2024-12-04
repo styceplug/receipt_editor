@@ -241,7 +241,7 @@ class _ParcelForceFormState extends State<ParcelForceForm> {
                   labelText: 'Total Cost of Service',
                   hintText: 'Input Total Cost in £',
                   controller: amountController,
-                  keyboardType: TextInputType.numberWithOptions(decimal: true)),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true)),
               SizedBox(height: Dimensions.height10),
               MyTextField(
                   inputFormatter: [LengthLimitingTextInputFormatter(3)],

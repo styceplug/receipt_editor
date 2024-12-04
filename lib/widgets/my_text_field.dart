@@ -33,7 +33,7 @@ class MyTextField extends StatelessWidget {
         labelText: labelText,
         labelStyle: const TextStyle(color: Colors.white),
         contentPadding: EdgeInsets.symmetric(
-            horizontal: Dimensions.width30, vertical: Dimensions.height15),
+            horizontal: Dimensions.width10, vertical: Dimensions.height15),
         hintText: hintText,
         hintStyle: TextStyle(
             fontWeight: FontWeight.w300,
