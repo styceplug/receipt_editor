@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:html' as html;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -12,6 +14,7 @@ import '../../utils/dimensions.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../preview_html_screen.dart';
+
 
 class CollectPlusForm extends StatefulWidget {
   const CollectPlusForm({super.key});
@@ -38,6 +41,42 @@ class _CollectPlusFormState extends State<CollectPlusForm> {
     return await rootBundle.loadString('assets/html/collectplus_model.html');
   }
 
+  // Future<void> generateHtml() async {
+  //   String template = await loadTemplate();
+  //   String generatedHtml = template
+  //       .replaceAll('{{store_location}}', locationController.text)
+  //       .replaceAll('{{time}}', timeController.text)
+  //       .replaceAll('{{date}}', dateController.text)
+  //       .replaceAll('{{serial_number}}', serialController.text)
+  //       .replaceAll('{{txn}}', txnController.text)
+  //       .replaceAll('{{parcel_id}}', panelIDController.text)
+  //       .replaceAll('{{tracking_id}}', trackingIDController.text);
+  //
+  //   // Directory appDocDir = await getApplicationDocumentsDirectory();
+  //   // String filePath = '${appDocDir.path}/generated_receipt.html';
+  //   // File file = File(filePath);
+  //   // await file.writeAsString(generatedHtml);
+  //
+  //   Directory appDocDir = await getApplicationDocumentsDirectory();
+  //
+  //   String htmlDirPath = '${appDocDir.path}/assets/html';
+  //   Directory htmlDir = Directory(htmlDirPath);
+  //   if (!htmlDir.existsSync()) {
+  //     await htmlDir.create(recursive: true);
+  //   }
+  //
+  //   String filePath = '$htmlDirPath/generated_receipt.html';
+  //   File file = File(filePath);
+  //   await file.writeAsString(generatedHtml);
+  //
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (_) => PreviewHtmlScreen(filePath: filePath),
+  //     ),
+  //   );
+  // }
+
   Future<void> generateHtml() async {
     String template = await loadTemplate();
     String generatedHtml = template
@@ -49,29 +88,35 @@ class _CollectPlusFormState extends State<CollectPlusForm> {
         .replaceAll('{{parcel_id}}', panelIDController.text)
         .replaceAll('{{tracking_id}}', trackingIDController.text);
 
-    // Directory appDocDir = await getApplicationDocumentsDirectory();
-    // String filePath = '${appDocDir.path}/generated_receipt.html';
-    // File file = File(filePath);
-    // await file.writeAsString(generatedHtml);
+    if (kIsWeb) {
+      final blob = html.Blob([generatedHtml], 'text/html');
+      final url = html.Url.createObjectUrlFromBlob(blob);
+      final anchor = html.AnchorElement(href: url)
+        ..target = 'blank'
+        ..download = 'generated_receipt.html';
+      anchor.click();
+      html.Url.revokeObjectUrl(url);
+    } else {
 
-    Directory appDocDir = await getApplicationDocumentsDirectory();
+      Directory appDocDir = await getApplicationDocumentsDirectory();
 
-    String htmlDirPath = '${appDocDir.path}/assets/html';
-    Directory htmlDir = Directory(htmlDirPath);
-    if (!htmlDir.existsSync()) {
-      await htmlDir.create(recursive: true);
+      String htmlDirPath = '${appDocDir.path}/assets/html';
+      Directory htmlDir = Directory(htmlDirPath);
+      if (!htmlDir.existsSync()) {
+        await htmlDir.create(recursive: true);
+      }
+
+      String filePath = '$htmlDirPath/generated_receipt.html';
+      File file = File(filePath);
+      await file.writeAsString(generatedHtml);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => PreviewHtmlScreen(filePath: filePath),
+        ),
+      );
     }
-
-    String filePath = '$htmlDirPath/generated_receipt.html';
-    File file = File(filePath);
-    await file.writeAsString(generatedHtml);
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => PreviewHtmlScreen(filePath: filePath),
-      ),
-    );
   }
 
   @override
