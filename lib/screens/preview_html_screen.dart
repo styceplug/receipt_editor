@@ -1,16 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:html_to_pdf/html_to_pdf.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-// import 'package:asset_webview/asset_webview.dart';
-
+import 'dart:html' as html;
 
 import '../utils/colors.dart';
 import '../utils/dimensions.dart';
@@ -26,21 +24,29 @@ class PreviewHtmlScreen extends StatefulWidget {
 
 class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
   late final WebViewController _controller;
+  late String htmlContent;
 
   @override
   void initState() {
     super.initState();
-    _initializeWebView();
+    if(kIsWeb){
+      _initializeWebPreview();
+    } else {
+      _initializeMobilePreview();
+    }
   }
 
-  void _initializeWebView() async {
+  void _initializeWebPreview(){
+    htmlContent = File(widget.filePath).readAsStringSync();
+    log(htmlContent);
+  }
+
+  void _initializeMobilePreview() async {
     final String htmlContent = File(widget.filePath).readAsStringSync();
 
-
-
     final String baseUrl = Platform.isAndroid
-        ? 'file:///android_asset/flutter_assets/assets/html/'
-        : 'flutter_assets/assets/html/';
+            ? 'file:///android_asset/flutter_assets/assets/html/'
+            : 'flutter_assets/assets/html/';
 
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -52,16 +58,19 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
           parameters: {'baseUrl': baseUrl},
         ),
       );
-
     var cur = await _controller.currentUrl();
     print(cur);
     print(_controller.toString());
     log(htmlContent);
   }
 
-  Future<Directory> getDownloadsDirectory() async {
-    if (Platform.isAndroid) {
 
+
+  Future<Directory> getDownloadsDirectory() async {
+    if (kIsWeb) {
+      throw UnsupportedError('Download directory is not supported on web');
+    }
+    if (Platform.isAndroid) {
       final directory = await getExternalStorageDirectory();
       if (directory != null) {
         final downloadsDir = Directory('${directory.path}/Download');
@@ -82,6 +91,22 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
 
   Future<void> downloadAsPdf(BuildContext context, String filePath) async {
     try {
+      final String htmlContent = await File(filePath).readAsString();
+
+      if (kIsWeb) {
+        final blob = html.Blob([htmlContent], 'application/pdf');
+        final url = html.Url.createObjectUrlFromBlob(blob);
+        final anchor = html.AnchorElement(href: url)
+          ..setAttribute('download', 'template_receipt.pdf')
+          ..click();
+        html.Url.revokeObjectUrl(url);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('PDF ready for download')),
+        );
+        return;
+      }
+
       bool permissionGranted = await requestStoragePermission();
       if (!permissionGranted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -92,7 +117,7 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
         return;
       }
 
-      final String htmlContent = await File(filePath).readAsString();
+
 
       Directory tempDir = await getTemporaryDirectory();
       String tempPath = tempDir.path;
@@ -128,7 +153,6 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
     }
   }
 
-
   Future<bool> requestStoragePermission() async {
     return true;
     if (await Permission.storage.isGranted) {
@@ -139,7 +163,6 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
 
     return status.isGranted;
   }
-
 
   @override
   Widget build(BuildContext context) {

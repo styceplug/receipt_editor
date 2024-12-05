@@ -30,8 +30,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
       ),
       drawer: const MyDrawer(),
       body: Container(
-        margin: EdgeInsets.symmetric(
-            horizontal: Dimensions.width20),
+        margin: EdgeInsets.symmetric(horizontal: Dimensions.width20),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,10 +84,13 @@ class _TemplateScreenState extends State<TemplateScreen> {
                           },
                           createdBy: 'Admin'),
                       TemplateTile(
-                          image: const AssetImage('assets/images/Collect+_A4.png'),
+                          image:
+                              const AssetImage('assets/images/Collect+_A4.png'),
                           title: 'Collect+ A4 Template',
                           createdBy: 'Author',
-                          onTap: () {}),
+                          onTap: () {
+                            Get.toNamed(AppRoutes.collectPlusA4Form);
+                          }),
                     ],
                   ),
                   SizedBox(height: Dimensions.height20),
@@ -98,13 +100,18 @@ class _TemplateScreenState extends State<TemplateScreen> {
                       TemplateTile(
                           image: const AssetImage('assets/images/DPD.png'),
                           title: "DPD Template",
-                          onTap: () {},
+                          onTap: () {
+                            Get.toNamed(AppRoutes.dpdForm);
+                          },
                           createdBy: 'Admin'),
                       TemplateTile(
-                          image: const AssetImage('assets/images/Parcelforce.png'),
+                          image:
+                              const AssetImage('assets/images/Parcelforce.png'),
                           title: 'Parcelforce Template',
                           createdBy: 'Author',
-                          onTap: () {}),
+                          onTap: () {
+                            Get.toNamed(AppRoutes.parcelForceForm);
+                          }),
                     ],
                   ),
                   SizedBox(height: Dimensions.height20),
@@ -114,13 +121,17 @@ class _TemplateScreenState extends State<TemplateScreen> {
                       TemplateTile(
                           image: const AssetImage('assets/images/RM.png'),
                           title: "RM Template",
-                          onTap: () {},
+                          onTap: () {
+                            Get.toNamed(AppRoutes.rmForm);
+                          },
                           createdBy: 'Admin'),
                       TemplateTile(
                           image: const AssetImage('assets/images/YodelA4.png'),
                           title: 'YodelA4 Template',
                           createdBy: 'Author',
-                          onTap: () {}),
+                          onTap: () {
+                            Get.toNamed(AppRoutes.yodelForm);
+                          }),
                     ],
                   ),
                   SizedBox(height: Dimensions.height20),

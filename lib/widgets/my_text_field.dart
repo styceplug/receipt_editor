@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../utils/dimensions.dart';
 
@@ -7,6 +8,7 @@ class MyTextField extends StatelessWidget {
   final String hintText;
   final TextEditingController controller;
   final TextInputType keyboardType;
+  final List<TextInputFormatter>? inputFormatter;
 
   const MyTextField({
     super.key,
@@ -14,11 +16,14 @@ class MyTextField extends StatelessWidget {
     required this.hintText,
     required this.controller,
     required this.keyboardType,
+    this.inputFormatter,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      textCapitalization: TextCapitalization.characters,
+      inputFormatters: inputFormatter,
       cursorColor: Colors.white,
       style: const TextStyle(color: Colors.white),
       controller: controller,
@@ -28,7 +33,7 @@ class MyTextField extends StatelessWidget {
         labelText: labelText,
         labelStyle: const TextStyle(color: Colors.white),
         contentPadding: EdgeInsets.symmetric(
-            horizontal: Dimensions.width30, vertical: Dimensions.height15),
+            horizontal: Dimensions.width10, vertical: Dimensions.height15),
         hintText: hintText,
         hintStyle: TextStyle(
             fontWeight: FontWeight.w300,

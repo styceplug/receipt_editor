@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RM Model</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @font-face {
+            font-family: 'bitMatrix-A2';
+            src: url('https://thecribbers.ng/assets/styce/mainFont.ttf') format('truetype');
+        }
+    </style>
+</head>
+<body style="background-color: #fff; color: gray; margin: 0; padding: 0; font-family: bitMatrix-A2;">
+<div style="width: 280px; margin: 20px auto; padding: 0;">
+    <div style="margin-bottom:20px;">
+        <p style="font-size: 12px; text-align: center;">Post Office Ltd.</p>
+        <p style="text-align: center; font-size: 12px;">www.postoffice.co.uk</p>
+        <div style="width: 280px; margin: 10px auto; text-align: left; padding: 0;">
+            <div style="margin-bottom: 10px; ">
+                <p style="font-size: 12px; margin-bottom:1px;">{{date}} {{time}}<span style="float: right;">TP:{{tp}}&nbsp;&nbsp;BP:{{bp}}&nbsp;&nbsp; SU:{{su}}</span></p>
+                <p style="font-size: 12px;margin-bottom:1px;">{{address1}}<span style="float: right;">&nbsp;FAD: &nbsp;{{fad}}</span></p>
+                <p style="font-size: 12px;margin-bottom:1px;">{{address2}}</p>
+                <p style="font-size: 12px;margin-bottom:1px;">{{address3}}</p>
+                <p style="font-size: 12px;margin-bottom:1px;">{{post_code}}</p>
+            </div>
+        </div>
+    </div>
+
+    <p style="font-size: 12px; margin-bottom:1px;">Session Id: {{session_id}}</p>
+    <p style="font-size: 12px; margin-bottom: 20px;">Txn Id:&nbsp;{{txn}}</p>
+
+    <p style="font-size: 12px; ">Horizon Certificate of Posting</p>
+    <p style="font-size: 12px;  text-align: left; margin-bottom: 15px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Tracked Returns</p>
+    <p style="font-size: 12px;  margin-bottom: 15px;">An item addressed as follows:-</p>
+    <p style="font-size: 12px;margin-bottom:1px; ">Building Name or No: {{building_no}}</p>
+    <p style="font-size: 12px;margin-bottom:1px; ">Postcode/Zip Code: &nbsp; {{zip_code}}</p>
+    <p style="font-size: 12px; margin-bottom: 15px;">Destination: &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dest}}</p>
+
+    <p style="font-size: 12px;  margin-bottom: 15px;">Barcode Number: &nbsp;&nbsp; &nbsp;&nbsp;{{barcode}}</p>
+
+    <p style="font-size: 12px; margin-bottom: 15px;">Has been accepted here today.</p>
+    <p style="font-size: 12px; margin-bottom: 15px;">Posted after Last Collection&nbsp;? {{collection}}</p>
+    <p style="font-size: 12px; margin-bottom: 20px;">Weight of Item &nbsp;=&nbsp; {{weight}}g</p>
+
+    <div style=" text-align: center;">
+        <p style="font-size: 12px; margin-bottom: 1px; padding: 0 10px;">It is important that you retain this </p>
+        <p style="font-size: 12px; margin-bottom: 15px; padding: 0 10px;">receipt as it is your Proof of Posting.</p>
+        <p style="font-size: 12px; margin-bottom: 1px; padding: 0 12px;  ">Please refer to Separate Terms and </p>
+        <p style="font-size: 12px; margin-bottom: 15px; padding: 0 12px;  ">Conditions.</p>
+    </div>
+
+    <p style="font-size: 12px; text-align: center;margin-bottom:1px;">Thank you for dropping off your parcel.</p>
+    <p style="font-size: 12px; text-align: center;margin-bottom:1px;">Track its whereabouts at:</p>
+    <p style="font-size: 12px; text-align: center;margin-bottom:1px;">postoffice.co.uk/track-trace</p>
+
+    <p style="font-size: 12px; text-align: center;margin-bottom:1px;">For information about products and services </p>
+    <p style="font-size: 12px; text-align: center;margin-bottom:1px;">available from Post Office, Please visit:</p>
+    <p style="font-size: 12px; text-align: center; margin-bottom: 15px;">www.postoffice.co.uk</p>
+
+    <div style=" font-size: 12px; letter-spacing: 3px;">
+        <p >* * * * * * * * * * * * * * *</p>
+    </div>
+
+    <div style=" text-align: center;">
+        <p style="font-size: 12px;  margin-bottom:1px;">We'd love your feedback.</p>
+        <p style="font-size: 12px;  margin-bottom:1px;">You could win a £100 One4all Gift Card!</p>
+        <p style="font-size: 12px; margin-bottom:1px; ">Visit postoffice.co.uk/feedback</p>
+        <p style="font-size: 12px; margin-bottom:1px; ">Or call free on 0800 047 2322</p>
+    </div>
+
+    <div style=" font-size: 12px; letter-spacing: 3px;">
+        <p >* * * * * * * * * * * * * * * </p>
+    </div>
+
+    <div style="margin-top: 35px;">
+        <p style="font-size: 12px; text-align: center; ">This is not a VAT receipt.</p>
+    </div>
+</div>
+</body>
+</html>

@@ -56,14 +56,21 @@
             font-family: 'Roboto', sans-serif;
         }
 
-        .store-info, .date-time {
+        .store-info {
             margin-bottom: 20px;
         }
 
-        .store-info p, .date-time p {
+        .store-info p {
             font-size: 15px;
             font-weight: 500;
             text-transform: uppercase;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 15px;
+            margin-bottom: 15px;
         }
 
         .thank-you {
@@ -127,7 +134,6 @@
 <body>
 <div class="receipt">
     <div class="logo">
-
         <img src="https://thecribbers.ng/assets/styce/collect+logo.png" alt="Collect+ Logo">
     </div>
 
@@ -140,9 +146,14 @@
         <p>{{store_location}}</p>
     </div>
 
-    <div class="date-time">
-        <p>{{time}}</p>
-        <p>{{date}}</p>
+    <!-- Row for Time and Date with controlled spacing -->
+    <div class="row">
+        <p>{{time}}&nbsp;&nbsp;{{date}}</p>
+    </div>
+
+    <!-- Row for Serial Number and TXN -->
+    <div class="row">
+        <p>SN {{serial_number}} TXN {{txn}}</p>
     </div>
 
     <div class="thank-you">
@@ -173,7 +184,6 @@
 
     <div class="trustpilot">
         <img src="https://thecribbers.ng/assets/styce/trustpilotlogo.png" alt="Trustpilot Logo">
-
     </div>
 </div>
 </body>

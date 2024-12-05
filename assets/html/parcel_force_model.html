@@ -39,36 +39,47 @@
     <div>Post Office Ltd.</div>
     <div>Your Receipt</div>
 </div>
-<div>17 Pier Road</div>
-<div>North Woolwich</div>
-<div>London</div>
-<div>Greater London</div>
-<div style="margin-bottom: 10px;">E16 2LH</div>
+<div style="margin-bottom: 10px;">
+    <p>{{address1}}</p>
+    <p>{{address2}}</p>
+    <p>{{address3}}</p>
+    <p>{{area_code}}</p>
+</div>
+
 <div class="receipt-section" style="padding: 0 24px;">
-    <div style="display: flex; align-items: center; justify-content: space-between;;"><p>Date and Time:</p> [DATE] [TIME]</div>
-    <div style="display: flex; align-items: center; justify-content: space-between;"><p>Session ID:</p> [SESSION_ID]</div>
-    <div style="display: flex; align-items: center; justify-content: space-between;"><p>Dest:</p> [DESTINATION]</div>
-    <div style="display: flex; align-items: center; justify-content: space-between;"><p>Quantity:</p> 1</div>
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;"><p>Weight:</p> [WEIGHT] kg</div>
+    <div style="display: flex; align-items: center; justify-content: space-between;;"><p>Date and Time:</p>
+        {{date}} {{time}}</div>
+    <div style="display: flex; align-items: center; justify-content: space-between;"><p>Session ID:</p>
+        {{session_id}}</div>
+    <div style="display: flex; align-items: center; justify-content: space-between;"><p>Dest:</p>
+        {{destination}}</div>
+    <div style="display: flex; align-items: center; justify-content: space-between;"><p>Quantity:</p>
+        {{quantity}}</div>
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;"><p>Weight:</p>
+        {{weight}} kg</div>
 </div>
 <div class="receipt-section" style="padding: 0 24px;">
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;"><p>express24:</p> £12.45</div>
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px;">Enhanced Comp: <div style="display: flex; align-items: center; gap: 10px;"><p>£0.00</p> <p>£0.00</p></div></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;"><p>express24:</p> £{{express}}</div>
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px;">Enhanced Comp: <div style="display: flex; align-items: center; gap: 10px;"><p>
+        £{{enhanced_comp}}</p> <p>£{{enhanced_comp}}</p></div></div>
 </div>
 <div class="receipt-section" style="padding: 0 24px;">
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;"><p>Total cost of services:</p> £12.45</div>
-    <div style="display: flex; align-items: center; justify-content: space-between;"><p>Posted after Last Collection?</p> Yes</div>
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;"><p>Conditions Accepted? </p> No</div>
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;"><p>Total cost of services:</p> £{{cost}}</div>
+    <div style="display: flex; align-items: center; justify-content: space-between;"><p>Posted after Last Collection?</p>
+        {{collection}}</div>
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;"><p>Conditions Accepted? </p>
+        {{condition}}</div>
 </div>
 <div class="receipt-section">
-    <div style="padding: 0 24px; display: flex; justify-content: space-between; margin-bottom: 20px;"><p>Barcode:</p> [BARCODE]</div>
+    <div style="padding: 0 24px; display: flex; justify-content: space-between; margin-bottom: 20px;"><p>Barcode:</p>
+        {{barcode}}</div>
     <div style="text-align: center; text-transform: uppercase;">Destination Address</div>
     <div style="display: flex; margin-bottom: 15px;">
         <div>
-            <div>Building Name or Number [BUILDING_NAME_OR_NUMBER]</div>
-            <div>Address Validated?: [ADDRESS_VALIDATED]</div>
+            <div>Building Name or Number {{building_no}}</div>
+            <div>Address Validated?: {{validated}}</div>
         </div>
-        <div>Postcode: [POSTCODE]</div>
+        <div>Postcode: {{postcode}}</div>
     </div>
 </div>
 <div class="receipt-section italic" style="padding: 0 20px; margin-bottom: 15px;">

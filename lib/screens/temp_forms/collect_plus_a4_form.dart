@@ -1,12 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
-
-import '../../utils/colors.dart';
+import 'package:receipt_editor/utils/colors.dart';
+import 'package:receipt_editor/widgets/my_text_field.dart';
 import '../../utils/dimensions.dart';
-import '../../widgets/my_text_field.dart';
+import 'package:path_provider/path_provider.dart';
 import '../preview_html_screen.dart';
 
 class CollectPlusA4Form extends StatefulWidget {
@@ -16,19 +15,22 @@ class CollectPlusA4Form extends StatefulWidget {
   State<CollectPlusA4Form> createState() => _CollectPlusA4FormState();
 }
 
-TextEditingController locationController = TextEditingController();
-TextEditingController timeController = TextEditingController();
-TextEditingController dateController = TextEditingController();
-TextEditingController serialController = TextEditingController();
-TextEditingController txnController = TextEditingController();
-TextEditingController panelIDController = TextEditingController();
-TextEditingController trackingIDController = TextEditingController();
-
 class _CollectPlusA4FormState extends State<CollectPlusA4Form> {
+  // always put your code in this place
+
+  TextEditingController locationController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController serialController = TextEditingController();
+  TextEditingController txnController = TextEditingController();
+  TextEditingController panelIDController = TextEditingController();
+  TextEditingController trackingIDController = TextEditingController();
+
   Future<String> loadTemplate() async {
+    /* final file = File('lib/models/template_models/collectplus_model.html');
+    return await file.readAsString();*/
 
-
-    return await rootBundle.loadString('assets/html/collectplus_model.html');
+    return await rootBundle.loadString('assets/html/collectplus_a4_model.html');
   }
 
   Future<void> generateHtml() async {
@@ -42,8 +44,20 @@ class _CollectPlusA4FormState extends State<CollectPlusA4Form> {
         .replaceAll('{{parcel_id}}', panelIDController.text)
         .replaceAll('{{tracking_id}}', trackingIDController.text);
 
+    // Directory appDocDir = await getApplicationDocumentsDirectory();
+    // String filePath = '${appDocDir.path}/generated_receipt.html';
+    // File file = File(filePath);
+    // await file.writeAsString(generatedHtml);
+
     Directory appDocDir = await getApplicationDocumentsDirectory();
-    String filePath = '${appDocDir.path}/generated_receipt.html';
+
+    String htmlDirPath = '${appDocDir.path}/assets/html';
+    Directory htmlDir = Directory(htmlDirPath);
+    if (!htmlDir.existsSync()) {
+      await htmlDir.create(recursive: true);
+    }
+
+    String filePath = '$htmlDirPath/generated_receipt.html';
     File file = File(filePath);
     await file.writeAsString(generatedHtml);
 
@@ -62,14 +76,15 @@ class _CollectPlusA4FormState extends State<CollectPlusA4Form> {
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
         elevation: 1,
-        title: const Text('COLLECT+ TEMPLATE'),
+        title: const Text('COLLECT+ A4 TEMPLATE'),
         titleTextStyle: TextStyle(
-            color: Colors.white,
-            fontSize: Dimensions.font22,
-            fontWeight: FontWeight.w400),
+          color: Colors.white,
+          fontSize: Dimensions.font22,
+          fontWeight: FontWeight.w400,
+        ),
       ),
       backgroundColor: AppColors.color1,
-      body: const Container(
+      body: Container(
         margin: EdgeInsets.symmetric(horizontal: Dimensions.width20),
         child: SingleChildScrollView(
           child: Column(
@@ -113,24 +128,28 @@ class _CollectPlusA4FormState extends State<CollectPlusA4Form> {
                   keyboardType: TextInputType.datetime),
               SizedBox(height: Dimensions.height10),
               MyTextField(
+                  inputFormatter: [LengthLimitingTextInputFormatter(9)],
                   labelText: 'Input Serial Number',
                   hintText: 'Type Serial Number',
                   controller: serialController,
                   keyboardType: TextInputType.number),
               SizedBox(height: Dimensions.height10),
               MyTextField(
+                  inputFormatter: [LengthLimitingTextInputFormatter(4)],
                   labelText: 'Set TXN',
                   hintText: 'Input TXN',
                   controller: txnController,
                   keyboardType: TextInputType.number),
               SizedBox(height: Dimensions.height10),
               MyTextField(
+                  inputFormatter: [LengthLimitingTextInputFormatter(16)],
                   labelText: 'Set Parcel ID',
                   hintText: 'Input Parcel ID',
                   controller: panelIDController,
                   keyboardType: TextInputType.number),
               SizedBox(height: Dimensions.height10),
               MyTextField(
+                  inputFormatter: [LengthLimitingTextInputFormatter(7)],
                   labelText: 'Set Tracking ID',
                   hintText: 'Input Tracking ID',
                   controller: trackingIDController,
