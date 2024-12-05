@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family:'bitMatrix-A2' ;
+          font-size: 13px;
+          width: 300px;
+          margin: 0 auto;
+          padding: 80px 0;
+          color: gray;
+        }
+
+        @font-face {
+            font-family:'bitMatrix-A2' ;
+            src: url('./MAIN FOMT.TTF');
+        }
+
+        .receipt-container {
+          text-align: center;
+          margin-bottom: 10px;
+
+        }
+
+        .italic {
+          font-style: italic;
+        }
+    </style>
+    <title>Parcel Force</title>
+</head>
+<body>
+<div class="receipt-container">
+    <div>Post Office Ltd.</div>
+    <div>Your Receipt</div>
+</div>
+<div>17 Pier Road</div>
+<div>North Woolwich</div>
+<div>London</div>
+<div>Greater London</div>
+<div style="margin-bottom: 10px;">E16 2LH</div>
+<div class="receipt-section" style="padding: 0 24px;">
+    <div style="display: flex; align-items: center; justify-content: space-between;;"><p>Date and Time:</p> [DATE] [TIME]</div>
+    <div style="display: flex; align-items: center; justify-content: space-between;"><p>Session ID:</p> [SESSION_ID]</div>
+    <div style="display: flex; align-items: center; justify-content: space-between;"><p>Dest:</p> [DESTINATION]</div>
+    <div style="display: flex; align-items: center; justify-content: space-between;"><p>Quantity:</p> 1</div>
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;"><p>Weight:</p> [WEIGHT] kg</div>
+</div>
+<div class="receipt-section" style="padding: 0 24px;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;"><p>express24:</p> £12.45</div>
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px;">Enhanced Comp: <div style="display: flex; align-items: center; gap: 10px;"><p>£0.00</p> <p>£0.00</p></div></div>
+</div>
+<div class="receipt-section" style="padding: 0 24px;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;"><p>Total cost of services:</p> £12.45</div>
+    <div style="display: flex; align-items: center; justify-content: space-between;"><p>Posted after Last Collection?</p> Yes</div>
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;"><p>Conditions Accepted? </p> No</div>
+</div>
+<div class="receipt-section">
+    <div style="padding: 0 24px; display: flex; justify-content: space-between; margin-bottom: 20px;"><p>Barcode:</p> [BARCODE]</div>
+    <div style="text-align: center; text-transform: uppercase;">Destination Address</div>
+    <div style="display: flex; margin-bottom: 15px;">
+        <div>
+            <div>Building Name or Number [BUILDING_NAME_OR_NUMBER]</div>
+            <div>Address Validated?: [ADDRESS_VALIDATED]</div>
+        </div>
+        <div>Postcode: [POSTCODE]</div>
+    </div>
+</div>
+<div class="receipt-section italic" style="padding: 0 20px; margin-bottom: 15px;">
+    IT IS IMPORTANT THAT YOU RETAIN THIS RECEIPT AS IT IS YOUR PROOF OF POSTING
+</div>
+<div class="receipt-section" style="padding: 0 20px; text-align: center; margin-bottom: 15px;">
+    PLEASE REFER TO SEPARATE TERMS AND CONDITIONS
+</div>
+<div class="receipt-section" style="text-align: center; padding: 0 20px; margin-bottom: 15px; ">
+    Go to www.parcelforce.com/track or call 03448 004 466 for more info.<br>
+    I CONFIRM RECEIPT AND ACCEPTANCE OF THE PARCEL FORCE WORLDWIDE<br>
+    CONDITIONS OF CARRIAGE
+</div>
+<div class="receipt-section" style="margin-bottom: 15px;" >Signature: ...............................</div>
+<div class="receipt-section italic" style="text-align: center;">
+    This is not a VAT receipt<br>
+    Thank You
+</div>
+</body>
+</html>
