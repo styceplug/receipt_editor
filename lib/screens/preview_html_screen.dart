@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'dart:html' as html;
+import 'dart:html' as html if (dart.library.io) 'dart:io';
 
 import '../utils/colors.dart';
 import '../utils/dimensions.dart';
@@ -29,17 +29,13 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
   @override
   void initState() {
     super.initState();
-    if(kIsWeb){
-      _initializeWebPreview();
-    } else {
       _initializeMobilePreview();
-    }
   }
 
-  void _initializeWebPreview(){
+ /* void _initializeWebPreview(){
     htmlContent = File(widget.filePath).readAsStringSync();
     log(htmlContent);
-  }
+  }*/
 
   void _initializeMobilePreview() async {
     final String htmlContent = File(widget.filePath).readAsStringSync();
@@ -67,9 +63,9 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
 
 
   Future<Directory> getDownloadsDirectory() async {
-    if (kIsWeb) {
+    /*if (kIsWeb) {
       throw UnsupportedError('Download directory is not supported on web');
-    }
+    }*/
     if (Platform.isAndroid) {
       final directory = await getExternalStorageDirectory();
       if (directory != null) {
@@ -93,7 +89,7 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
     try {
       final String htmlContent = await File(filePath).readAsString();
 
-      if (kIsWeb) {
+      /*if (kIsWeb) {
         final blob = html.Blob([htmlContent], 'application/pdf');
         final url = html.Url.createObjectUrlFromBlob(blob);
         final anchor = html.AnchorElement(href: url)
@@ -105,7 +101,7 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
           const SnackBar(content: Text('PDF ready for download')),
         );
         return;
-      }
+      }*/
 
       bool permissionGranted = await requestStoragePermission();
       if (!permissionGranted) {
@@ -154,7 +150,7 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
   }
 
   Future<bool> requestStoragePermission() async {
-    return true;
+
     if (await Permission.storage.isGranted) {
       return true;
     }
@@ -194,7 +190,7 @@ class _PreviewHtmlScreenState extends State<PreviewHtmlScreen> {
                   borderRadius: BorderRadius.circular(Dimensions.radius20),
                 ),
                 child: Text(
-                  'Download PDF',
+                  'Generate PDF',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w500,

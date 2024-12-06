@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:html' as html;
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:receipt_editor/utils/colors.dart';
@@ -67,7 +69,38 @@ class _RmFormState extends State<RmForm> {
         .replaceAll('{{collection}}', collectionController.text)
         .replaceAll('{{weight}}', weightController.text);
 
-    // Directory appDocDir = await getApplicationDocumentsDirectory();
+
+    if (kIsWeb) {
+      final blob = html.Blob([generatedHtml], 'text/html');
+      final url = html.Url.createObjectUrlFromBlob(blob);
+      final anchor = html.AnchorElement(href: url)
+        ..target = 'blank'
+        ..download = 'rm_receipt.html';
+      anchor.click();
+      html.Url.revokeObjectUrl(url);
+    } else {
+
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+
+      String htmlDirPath = '${appDocDir.path}/assets/html';
+      Directory htmlDir = Directory(htmlDirPath);
+      if (!htmlDir.existsSync()) {
+        await htmlDir.create(recursive: true);
+      }
+
+      String filePath = '$htmlDirPath/rm_receipt.html';
+      File file = File(filePath);
+      await file.writeAsString(generatedHtml);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => PreviewHtmlScreen(filePath: filePath),
+        ),
+      );
+    }
+
+    /*// Directory appDocDir = await getApplicationDocumentsDirectory();
     // String filePath = '${appDocDir.path}/generated_receipt.html';
     // File file = File(filePath);
     // await file.writeAsString(generatedHtml);
@@ -89,7 +122,7 @@ class _RmFormState extends State<RmForm> {
       MaterialPageRoute(
         builder: (_) => PreviewHtmlScreen(filePath: filePath),
       ),
-    );
+    );*/
   }
 
   @override

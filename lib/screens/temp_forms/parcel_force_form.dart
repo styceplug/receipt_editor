@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:html' as html;
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:receipt_editor/utils/colors.dart';
@@ -68,7 +70,36 @@ class _ParcelForceFormState extends State<ParcelForceForm> {
         .replaceAll('{{postcode}}', postCodeController.text)
         .replaceAll('{{validated}}', validityController.text);
 
-    // Directory appDocDir = await getApplicationDocumentsDirectory();
+    if (kIsWeb) {
+      final blob = html.Blob([generatedHtml], 'text/html');
+      final url = html.Url.createObjectUrlFromBlob(blob);
+      final anchor = html.AnchorElement(href: url)
+        ..target = 'blank'
+        ..download = 'parcel_force_receipt.html';
+      anchor.click();
+      html.Url.revokeObjectUrl(url);
+    } else {
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+
+      String htmlDirPath = '${appDocDir.path}/assets/html';
+      Directory htmlDir = Directory(htmlDirPath);
+      if (!htmlDir.existsSync()) {
+        await htmlDir.create(recursive: true);
+      }
+
+      String filePath = '$htmlDirPath/parcel_force_receipt.html';
+      File file = File(filePath);
+      await file.writeAsString(generatedHtml);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => PreviewHtmlScreen(filePath: filePath),
+        ),
+      );
+    }
+
+    /*// Directory appDocDir = await getApplicationDocumentsDirectory();
     // String filePath = '${appDocDir.path}/generated_receipt.html';
     // File file = File(filePath);
     // await file.writeAsString(generatedHtml);
@@ -90,7 +121,7 @@ class _ParcelForceFormState extends State<ParcelForceForm> {
       MaterialPageRoute(
         builder: (_) => PreviewHtmlScreen(filePath: filePath),
       ),
-    );
+    );*/
   }
 
   @override
@@ -209,7 +240,8 @@ class _ParcelForceFormState extends State<ParcelForceForm> {
                         labelText: 'Input Weight',
                         hintText: 'Provide weight in KG',
                         controller: weightController,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true)),
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true)),
                   ),
                 ],
               ),
@@ -221,8 +253,8 @@ class _ParcelForceFormState extends State<ParcelForceForm> {
                         labelText: 'Express Price',
                         hintText: 'Price in £',
                         controller: expressController,
-                        keyboardType:
-                            const TextInputType.numberWithOptions(decimal: true)),
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true)),
                   ),
                   SizedBox(width: Dimensions.width10),
                   Expanded(
@@ -231,7 +263,8 @@ class _ParcelForceFormState extends State<ParcelForceForm> {
                         labelText: 'Enhanced Comp',
                         hintText: 'Input Enhanced Comp in £',
                         controller: enhancedCompController,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true)),
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true)),
                   ),
                 ],
               ),
@@ -241,7 +274,8 @@ class _ParcelForceFormState extends State<ParcelForceForm> {
                   labelText: 'Total Cost of Service',
                   hintText: 'Input Total Cost in £',
                   controller: amountController,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true)),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true)),
               SizedBox(height: Dimensions.height10),
               MyTextField(
                   inputFormatter: [LengthLimitingTextInputFormatter(3)],

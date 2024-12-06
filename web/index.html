@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
-<!-- This script adds the flutter initialization JS code -->
-<script src="flutter.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/compressorjs@1.1.1/dist/compressorjs.min.js"></script>
+
 <head>
   <base href="$FLUTTER_BASE_HREF">
   <meta charset="UTF-8">
@@ -20,21 +18,7 @@
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
-  <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
-      });
-    });
-  </script>
+
 </body>
 </html>
 

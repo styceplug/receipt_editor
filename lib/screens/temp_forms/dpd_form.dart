@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:html' as html;
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:receipt_editor/utils/colors.dart';
@@ -72,7 +74,36 @@ class _DpdFormState extends State<DpdForm> {
         .replaceAll('{{customer_reference}}', customerReferenceController.text)
         .replaceAll('{{parcel_id}}', parcelIDController.text);
 
-    Directory appDocDir = await getApplicationDocumentsDirectory();
+    if (kIsWeb) {
+      final blob = html.Blob([generatedHtml], 'text/html');
+      final url = html.Url.createObjectUrlFromBlob(blob);
+      final anchor = html.AnchorElement(href: url)
+        ..target = 'blank'
+        ..download = 'dpd_receipt.html';
+      anchor.click();
+      html.Url.revokeObjectUrl(url);
+    } else {
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+
+      String htmlDirPath = '${appDocDir.path}/assets/html';
+      Directory htmlDir = Directory(htmlDirPath);
+      if (!htmlDir.existsSync()) {
+        await htmlDir.create(recursive: true);
+      }
+
+      String filePath = '$htmlDirPath/dpd_receipt.html';
+      File file = File(filePath);
+      await file.writeAsString(generatedHtml);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => PreviewHtmlScreen(filePath: filePath),
+        ),
+      );
+    }
+
+    /* Directory appDocDir = await getApplicationDocumentsDirectory();
 
     String htmlDirPath = '${appDocDir.path}/assets/html';
     Directory htmlDir = Directory(htmlDirPath);
@@ -89,7 +120,7 @@ class _DpdFormState extends State<DpdForm> {
       MaterialPageRoute(
         builder: (_) => PreviewHtmlScreen(filePath: filePath),
       ),
-    );
+    );*/
   }
 
   @override

@@ -1,4 +1,4 @@
-import 'dart:convert';
+
 import 'dart:io';
 import 'dart:html' as html;
 
@@ -93,7 +93,7 @@ class _CollectPlusFormState extends State<CollectPlusForm> {
       final url = html.Url.createObjectUrlFromBlob(blob);
       final anchor = html.AnchorElement(href: url)
         ..target = 'blank'
-        ..download = 'generated_receipt.html';
+        ..download = 'collect+_receipt.html';
       anchor.click();
       html.Url.revokeObjectUrl(url);
     } else {
@@ -106,7 +106,7 @@ class _CollectPlusFormState extends State<CollectPlusForm> {
         await htmlDir.create(recursive: true);
       }
 
-      String filePath = '$htmlDirPath/generated_receipt.html';
+      String filePath = '$htmlDirPath/collect+_receipt.html';
       File file = File(filePath);
       await file.writeAsString(generatedHtml);
 
