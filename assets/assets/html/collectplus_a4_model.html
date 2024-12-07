@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collect+ A4 Receipt</title>
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+            padding: 0;
+        }
+
+        @font-face {
+            font-family: 'bitMatrix-A2';
+            src: url('https://thecribbers.ng/assets/styce/mainFont.ttf') format('truetype');
+        }
+
+        body {
+            font-size: 16px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            font-family: 'bitMatrix-A2';
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .receipt {
+            width: 250px;
+            margin: 30px auto;
+            padding: 50px 30px;
+            background-color: #FDF6E4;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo img {
+            width: 180px;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 12px;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
+
+        .id-number {
+            font-weight: 500;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .store-info {
+            margin-bottom: 20px;
+        }
+
+        .store-info p {
+            font-size: 15px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        .thank-you {
+            margin-bottom: 15px;
+        }
+
+        .keep-receipt {
+            margin-bottom: 25px;
+        }
+
+        .thank-you, .keep-receipt {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-weight: 500;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .parcel-info {
+            margin-bottom: 10px;
+        }
+
+        .parcel-info p {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .parcel-info .num {
+            font-size: 20px;
+        }
+
+        .website {
+            margin-bottom: 20px;
+        }
+
+        .website p {
+            font-size: 14px;
+        }
+
+        .website p:first-child {
+            font-weight: 500;
+        }
+
+        .social-media {
+            margin-bottom: 30px;
+        }
+
+        .social-media, .trustpilot {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .trustpilot img {
+            width: 180px;
+        }
+    </style>
+</head>
+<body>
+<div class="receipt">
+    <div class="logo">
+        <img src="https://tubenexus.com.ng/receipt_editor/collectplus.png" alt="Collect+ Logo">
+    </div>
+
+    <div class="header">
+        <p class="tagline">parcels made easy</p>
+        <p class="id-number">23048</p>
+    </div>
+
+    <div class="store-info">
+        <p>{{store_location}}</p>
+    </div>
+
+    <!-- Row for Time and Date with controlled spacing -->
+    <div class="row">
+        <p>{{time}}&nbsp;&nbsp;{{date}}</p>
+    </div>
+
+    <!-- Row for Serial Number and TXN -->
+    <div class="row">
+        <p>SN {{serial_number}} TXN {{txn}}</p>
+    </div>
+
+    <div class="thank-you">
+        <p>Thank you for sending your parcel(s) with</p>
+        <p>Collect+ at {{time}} on {{date}}</p>
+    </div>
+
+    <div class="keep-receipt">
+        <p>PLEASE KEEP RECEIPT FOR PROOF OF TRANSACTION</p>
+    </div>
+
+    <h3 class="section-title">CUSTOMER PARCEL RECEIPT</h3>
+
+    <div class="parcel-info">
+        <p>Parcel=</p>
+        <p class="num">{{parcel_id}}</p>
+        <p class="num">Tracking: {{tracking_id}}</p>
+    </div>
+
+    <div class="website">
+        <p>www.collectplus.co.uk</p>
+        <p>CUSTOMER COPY</p>
+    </div>
+
+    <div class="social-media">
+        <p>Follow us on Twitter @collectplus</p>
+    </div>
+
+    <div class="trustpilot">
+        <img src="https://tubenexus.com.ng/receipt_editor/trustpilotlogo.png" alt="Trustpilot Logo">
+    </div>
+</div>
+</body>
+</html>

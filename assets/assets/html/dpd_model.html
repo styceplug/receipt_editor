@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DPD Receipt</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        @font-face {
+            font-family: 'bitMatrix-A2';
+            src: url('https://thecribbers.ng/assets/styce/mainFont.ttf') format('truetype');
+        }
+
+        body {
+            font-family: 'bitMatrix-A2';
+            background-color: #fff;
+            color: gray;
+            padding: 5px;
+            margin: 0;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        .receipt {
+            max-width: 300px;
+            margin: 0 auto;
+            line-height: 0.8;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .dotted {
+            border-top: 1px dotted #000;
+        }
+
+        .stars {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        a {
+            color: gray;
+            text-decoration: none;
+        }
+
+        .column, .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .text-small {
+            font-size: 12px;
+        }
+
+        .address, .customer-info {
+            margin-bottom: 10px;
+            padding--bottom: 1px;
+        }
+
+        .address p {
+            margin-bottom: 1px;
+            padding-bottom:1px;
+
+        }
+
+        .thank-you {
+            margin: 15px 0;
+        }
+
+        .session-info div {
+        margin-bottom: 1px;
+        }
+
+        .session-info span {
+            display: inline-block; /* Ensures spans align properly */
+        }
+
+        .session-info .float-right {
+            float: right; /* Float specific items to the right */
+        }
+
+        .session-info {
+            padding-bottom: 5px; /* Adds padding at the bottom */
+            margin-bottom: 5px; /* Adds space below the section */
+        }
+    </style>
+</head>
+<body>
+<div class="receipt">
+    <!-- Header Section -->
+    <div class="center text-small" style="margin-bottom:20px;">
+        <p>Post Office Ltd.</p>
+        <p><a href="https://www.postoffice.co.uk">www.postoffice.co.uk</a></p>
+    </div>
+
+    <!-- Address Section -->
+    <div class="address p text-small">
+        <p>{{date}} {{time}} <span
+                style="float: right;">TP:{{tp}} &nbsp; BP:{{bp}} &nbsp; SU:{{su}}</span></p>
+        <p>{{address1}} <span style="float: right;">FAD: {{fad}}</span></p>
+        <p>{{address2}}</p>
+        <p>{{address3}}</p>
+        <p>{{area_code}}</p>
+    </div>
+
+    <!-- Session Information -->
+    <div class="session-info text-small" style="margin-bottom:20px;">
+        <div style="margin-bottom: 3px;">
+            <span>Session Id:</span>
+            <span>{{session_id}}</span>
+        </div>
+
+        <div style="margin-bottom: 3px;">
+            <span>Txn Id:</span>
+            <span>{{txn}}</span>
+        </div>
+
+        <div style="margin-bottom: 3px;">
+            <span>Client:</span>
+            <span>{{client}}</span>
+        </div>
+
+        <div style="margin-bottom: 3px;">
+            <span>Scheme:</span>
+            <span>{{scheme}}</span>
+            <span style="float: right;">Svc: {{svc}}</span>
+        </div>
+
+        <div style="margin-bottom: 3px; ">
+            <span>Token Type:</span>
+            <span>{{token}}</span>
+            <span style="float: right;">Entry: {{entry}}</span>
+        </div>
+
+        <div style="margin-bottom: 3px;">
+            <span>Ref:</span>
+            <span>{{reference}}</span>
+        </div>
+
+        <div style="margin-bottom: 3px;">
+            <span>Amount:</span>
+            <span>{{amount}}</span>
+            <span style="margin-left: 10px;">Cash</span>
+        </div>
+
+        <div style="margin-bottom: 3px;">
+            <span>Product No:</span>
+            <span>{{product_no}}</span>
+        </div>
+    </div>
+
+    <!-- Customer Information -->
+    <div class="customer-info">
+        <div class="column" style="margin-bottom:20px;"><span>Customer Reference:</span> <span>{{customer_reference}}</span>
+        </div>
+        <div class="column" style="margin-bottom:15px;"><span>Customer Drop Off</span></div>
+    </div>
+
+    <!-- Thank You Section -->
+    <div class="thank-you text-small">
+        <p style="margin-bottom: 3px;">Thank you for your parcel.</p>
+        <p style="margin-bottom: 3px;">Please keep this receipt safe so you can track the progress of your parcel.</p>
+        <p style="margin-bottom: 3px;">To track your parcel on its journey, visit</p>
+        <p style="margin-bottom: 3px;"><a href="http://www.dpd.co.uk" target="_blank">www.dpd.co.uk</a> and enter 650832529
+        </p>
+    </div>
+
+    <!-- Parcel ID -->
+    <div style="margin-bottom:80px;">
+        <p style="margin-bottom: 3px;">Parcels:</p>
+        <p>{{parcel_id}}</p>
+    </div>
+
+    <!-- Feedback Section -->
+    <div class="stars">
+        <p style="margin-bottom: 3px;">* * * * * * * * * * * * * * * * * * * * * *</p>
+        <p style="margin-bottom: 3px;">We'd love your feedback</p>
+        <p style="margin-bottom: 3px;">You could win a £100 One4all Gift Card</p>
+        <p style="margin-bottom: 3px;">Visit <a href="http://postoffice.co.uk/feedback" target="_blank">postoffice.co.uk/feedback</a>
+        </p>
+        <p>* * * * * * * * * * * * * * * * * * * * * *</p>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="center">
+        <em>This is not a VAT receipt</em>
+    </div>
+</div>
+</body>
+</html>
