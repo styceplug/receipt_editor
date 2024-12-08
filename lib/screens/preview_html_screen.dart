@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'dart:html' as html if (dart.library.io) 'dart:io';
+import 'package:receipt_editor/helpers/html_helper.dart' as html;
 
 import '../utils/colors.dart';
 import '../utils/dimensions.dart';
