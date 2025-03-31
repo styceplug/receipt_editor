@@ -1,16 +1,46 @@
-# receipt_editor
+**UrbanGateX 🧾 | Receipt Editor & Generator**
 
-A new Flutter project.
+UrbanGateX is a powerful mobile application designed for businesses and individuals who need to customize, edit, and generate receipts effortlessly. With this app, users can import receipt templates, input transaction details, and export high-quality receipts for printing or digital use.
 
-## Getting Started
+Whether you’re a small business owner, a freelancer, or someone who needs to generate professional-looking receipts on the go, UrbanGateX provides a simple yet effective solution.
 
-This project is a starting point for a Flutter application.
+**✨ Key Features**
 
-A few resources to get you started if this is your first Flutter project:
+**📥 Import Receipt Templates**
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Users can upload or select from pre-designed receipt templates, ensuring consistency in branding and layout.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**✍️ Edit & Customize Receipts**
+
+Modify key receipt details such as:
+	•	Business Name & Logo
+	•	Transaction Date & Time
+	•	Customer Details
+	•	Product/Service Breakdown
+	•	Tax & Discounts
+	•	Payment Method
+
+**📤 Export & Print**
+
+Generate high-quality PDF receipts and print them directly from the app. Users can also share receipts via email, WhatsApp, or cloud storage.
+
+**🗂️ Receipt Management**
+
+Save and organize receipts for future reference, making it easy to track past transactions.
+
+**🎨 Template Customization**
+
+Customize receipt templates with brand colors, fonts, and layouts to create a professional look.
+
+**🛠 Tech Stack**
+	•	Frontend: Flutter
+	•	State Management: GetX
+	•	File Handling: PDF Generation & Export
+
+**🚀 Why UrbanGateX?**
+	•	Saves Time: Quickly generate and edit receipts in just a few taps.
+	•	Professional Output: High-quality, print-ready receipt exports.
+	•	User-Friendly Interface: Simple and intuitive design for seamless navigation.
+	•	Business-Friendly: Ideal for freelancers, businesses, and self-employed individuals.
+
+With UrbanGateX, creating and managing receipts has never been easier. Whether you need it for business transactions or record-keeping, this app ensures efficiency and professionalism in every receipt you generate.
